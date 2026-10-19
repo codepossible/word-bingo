@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Word Bingo · Show words</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell game-shell">
+      <a class="back-link" href="{{ url_for('show_game', game_id=game['id']) }}">← Game modes</a>
+      <section class="mode-panel">
+        <div class="mode-heading">
+          <div>
+            <span class="eyebrow">{{ words|length }} words in this game</span>
+            <h1 class="mode-title">Show <span>words</span></h1>
+          </div>
+          <a class="button button-primary mode-play-link" href="{{ url_for('play_bingo', game_id=game['id']) }}">
+            Play bingo →
+          </a>
+        </div>
+        <p class="mode-copy">The full word list, select the words you want on your card.</p>
+        <div class="word-grid" aria-label="All game words">
+          {% for word in words %}
+            <div class="word-cell">{{ word }}</div>
+          {% endfor %}
+        </div>
+      </section>
+      <footer class="page-footer">Made for good company and great guesses.</footer>
+    </main>
+  </body>
+</html>

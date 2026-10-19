@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Word Bingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <span class="eyebrow">Urvashi and Shashank's</span>
+        <h1>Word <span>Bingo</span></h1>
+        <p class="hero-copy">A little friendly competition, one word at a time.</p>
+        <form action="{{ url_for('new_game') }}" method="post">
+          <button class="button button-primary" type="submit">
+            <span aria-hidden="true">＋</span> Start a new game
+          </button>
+        </form>
+      </header>
+
+      <section class="sessions-panel" aria-labelledby="sessions-heading">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Pick up where you left off</span>
+            <h2 id="sessions-heading">Active games</h2>
+          </div>
+          <span class="session-count">{{ active_sessions|length }} {{ "game" if active_sessions|length == 1 else "games" }}</span>
+        </div>
+        {% if active_sessions %}
+          <ul class="session-list">
+            {% for game in active_sessions %}
+              <li>
+                <div class="session-row">
+                  <a class="session-card" href="{{ url_for('show_game', game_id=game['id']) }}">
+                    <span class="session-icon" aria-hidden="true">B</span>
+                    <span class="session-details">
+                      <strong>Word Bingo</strong>
+                      <span>Started {{ game["created_at"] }}</span>
+                    </span>
+                    <span class="session-status"><span></span> In progress</span>
+                    <span class="session-arrow" aria-hidden="true">→</span>
+                  </a>
+                  <form action="{{ url_for('end_game', game_id=game['id']) }}" method="post">
+                    <button class="button button-danger button-small" type="submit" aria-label="End game session">
+                      End
+                    </button>
+                  </form>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="empty-state">
+            <span class="empty-icon" aria-hidden="true">✳</span>
+            <h3>No games in progress</h3>
+            <p>Start a new game and it will show up here when you want to continue.</p>
+          </div>
+        {% endif %}
+      </section>
+      <footer class="page-footer">Made for good company and great guesses.</footer>
+    </main>
+  </body>
+</html>

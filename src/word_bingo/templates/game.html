@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Word Bingo · Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell game-shell">
+      <a class="back-link" href="{{ url_for('home') }}">← All games</a>
+      <section class="game-panel">
+        <span class="eyebrow">Choose a mode</span>
+        <h1>Word <span>Bingo</span></h1>
+        <p class="game-meta">Started {{ game["created_at"] }}</p>
+        <div class="mode-choices">
+          <a class="mode-card" href="{{ url_for('show_words', game_id=game['id']) }}">
+            <span class="mode-card-icon" aria-hidden="true">▦</span>
+            <strong>Show words</strong>
+            <span>Browse the word list and select words for your card.</span>
+            <span class="mode-card-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="mode-card" href="{{ url_for('play_bingo', game_id=game['id']) }}">
+            <span class="mode-card-icon mode-card-icon-gold" aria-hidden="true">B</span>
+            <strong>Play bingo</strong>
+            <span>Strike words from your card one word at a time.</span>
+            <span class="mode-card-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="game-status"><span></span> Session active</p>
+        <p class="game-id">Session ID: <code>{{ game["id"] }}</code></p>
+        <form class="end-game-form" action="{{ url_for('end_game', game_id=game['id']) }}" method="post">
+          <button class="button button-danger" type="submit">End this game</button>
+        </form>
+      </section>
+      <footer class="page-footer">Made for good company and great guesses.</footer>
+    </main>
+  </body>
+</html>
